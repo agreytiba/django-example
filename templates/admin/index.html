@@ -1,0 +1,147 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block extrahead %}
+{{ block.super }}
+<!-- Custom CSS -->
+<link rel="stylesheet" type="text/css" href="{% static 'css/custom_admin.css' %}">
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}"> eco Dashboard</a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+<a href="/" style="margin-right:5px;">🏠 Home</a>
+<a href="https://example.com/docs">📖 Docs</a>
+<a href="https://example.com/docs">contact</a>
+{% endblock %}
+
+{% block content %}
+<div class="custom-dashboard">
+
+    <!-- Welcome -->
+    <h1 class="dashboard-title">Welcome, {{ user.username }}</h1>
+    <p class="intro">Quick access to your admin panel features</p>
+
+    <!-- Dashboard cards -->
+    <div class="dashboard-cards">
+        <div class="card">
+            <h2>👤 Users</h2>
+            <a href="{% url 'admin:auth_user_changelist' %}" class="btn">Manage Users</a>
+            <a href="{% url 'admin:auth_user_add' %}" class="btn">Add User</a>
+        </div>
+
+        <div class="card">
+            <h2>🔑 Groups</h2>
+            <a href="{% url 'admin:auth_group_changelist' %}" class="btn">Manage Groups</a>
+            <a href="{% url 'admin:auth_group_add' %}" class="btn">Add Group</a>
+        </div>
+
+        <div class="card">
+            <h2>📦 Products</h2>
+            <a href="{% url 'admin:shop_product_changelist' %}" class="btn">Manage Products</a>
+            <a href="{% url 'admin:shop_product_add' %}" class="btn">Add Product</a>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="stats-section">
+        <h2>📊 Quick Stats</h2>
+        <div class="stats-cards">
+            <div class="stat-card">Users: <strong>{{ user_count }}</strong></div>
+            <div class="stat-card">Groups: <strong>{{ group_count }}</strong></div>
+            <div class="stat-card">Products: <strong>{{ product_count }}</strong></div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts-section">
+        <h2>📈 Dashboard Charts</h2>
+        <div class="charts-container">
+            <div class="chart-card">
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <canvas id="pieChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Default app list -->
+    <div id="content-main">
+        {% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}
+    </div>
+
+    <!-- Recent actions -->
+    <div class="recent-actions">
+        <h2>{% translate 'Recent actions' %}</h2>
+        {% load log %}
+        {% get_admin_log 10 as admin_log for_user user %}
+        {% if not admin_log %}
+        <p>{% translate 'None available' %}</p>
+        {% else %}
+        <ul>
+            {% for entry in admin_log %}
+            <li>
+                {% if entry.is_deletion or not entry.get_admin_url %}
+                {{ entry.object_repr }}
+                {% else %}
+                <a href="{{ entry.get_admin_url }}">{{ entry.object_repr }}</a>
+                {% endif %}
+                <small>({{ entry.content_type }})</small>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+
+</div>
+
+<!-- Chart.js scripts -->
+<script>
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Users', 'Groups', 'Products'],
+            datasets: [{
+                label: 'Counts',
+                data: [{{ user_count }}, {{ group_count }}, {{ product_count }}],
+    backgroundColor: ['#2563eb', '#1e40af', '#60a5fa'],
+        borderRadius: 5
+            }]
+        },
+    options: {
+        responsive: true,
+            plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true }
+        },
+        scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+        }
+    }
+    });
+
+    // Pie Chart with dummy data
+    const pieCtx = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+            labels: ['Active Users', 'Inactive Users', 'Pending Products'],
+            datasets: [{
+                data: [12, 5, 8],
+                backgroundColor: ['#2563eb', '#1e40af', '#60a5fa']
+            }]
+        },
+        options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+    });
+</script>
+
+{% endblock %}
