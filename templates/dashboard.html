@@ -1,0 +1,213 @@
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100vw;
+            min-height: 100vh;
+            box-sizing: border-box;
+            background: #fff;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 32px 40px 0 40px;
+        }
+
+        .logo {
+            font-size: 2.2rem;
+            color: #357abd;
+            font-weight: bold;
+        }
+
+        .user {
+            font-size: 1.1rem;
+            color: #333;
+            margin-right: 24px;
+        }
+
+        .logout {
+            color: #fff;
+            background: #4a90e2;
+            padding: 10px 22px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+            font-size: 1rem;
+        }
+
+        .logout:hover {
+            background: #357abd;
+        }
+
+        .stats {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            gap: 32px;
+            margin: 36px 0 0 0;
+        }
+
+        .card {
+            flex: 1;
+            background: #eaf0fa;
+            border-radius: 14px;
+            padding: 32px 0;
+            text-align: center;
+            box-shadow: 0 2px 8px #dbeafe;
+        }
+
+        .card h3 {
+            margin: 0 0 16px 0;
+            color: #357abd;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            font-size: 2.2rem;
+            color: #333;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .section {
+            width: 100%;
+            max-width: 1400px;
+            margin-top: 40px;
+            background: #f8fbff;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px #dbeafe;
+            padding: 32px 40px;
+        }
+
+        .section h3 {
+            color: #357abd;
+            margin-bottom: 22px;
+            font-size: 1.3rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #eaf0fa;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        th {
+            background: #f4f6fb;
+            color: #357abd;
+            font-weight: 600;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        @media (max-width: 900px) {
+
+            .stats,
+            .navbar,
+            .section {
+                max-width: 98vw;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar">
+            <span class="logo">Ecommerce Dashboard</span>
+            <span class="user">Welcome, {{ user.username }}</span>
+            <a href="/accounts/logout/" class="logout">Logout</a>
+        </div>
+        <div class="stats">
+            <div class="card">
+                <h3>Orders</h3>
+                <p>1,245</p>
+            </div>
+            <div class="card">
+                <h3>Revenue</h3>
+                <p>$23,400</p>
+            </div>
+            <div class="card">
+                <h3>Products</h3>
+                <p>320</p>
+            </div>
+            <div class="card">
+                <h3>Customers</h3>
+                <p>980</p>
+            </div>
+        </div>
+        <div class="section">
+            <h3>Recent Orders</h3>
+            <table>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                </tr>
+                <tr>
+                    <td>#1001</td>
+                    <td>Wireless Mouse</td>
+                    <td>Shipped</td>
+                    <td>$25</td>
+                </tr>
+                <tr>
+                    <td>#1002</td>
+                    <td>Bluetooth Headphones</td>
+                    <td>Processing</td>
+                    <td>$60</td>
+                </tr>
+                <tr>
+                    <td>#1003</td>
+                    <td>USB-C Charger</td>
+                    <td>Delivered</td>
+                    <td>$18</td>
+                </tr>
+                <tr>
+                    <td>#1004</td>
+                    <td>Laptop Stand</td>
+                    <td>Cancelled</td>
+                    <td>$32</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>
