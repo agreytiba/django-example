@@ -97,4 +97,23 @@ def decrement_quantity(request, pk):
         # save to cart in session storage
         request.session['cart'] = cart
         return redirect('cart_detail')
+    
+
+    # error handling
+    # (404,500,403,400)
+    
+    # 404 not found
+def custom_404(request, exception):
+        return render(request, 'errors/404.html', status=404)
+        # internal server error
+def custom_500(request, exception):
+        return render(request, 'errors/500.html', status=500)
+# fordidden
+def custom_400(request, exception):
+        return render(request, 'errors/404.html', status=404)
+# bad request
+def custom_403(request, exception):
+        return render(request, 'errors/404.html', status=404)
+        
+        
         

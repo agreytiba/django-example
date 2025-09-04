@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-
+from shop import views  as shop_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
@@ -28,3 +28,7 @@ urlpatterns = [
     
 ]
 
+handler404 = 'shop.views.custom_404'
+handler404 = 'shop.views.custom_500'
+handler404 = 'shop.views.custom_400'
+handler404 = 'shop.views.custom_403'
